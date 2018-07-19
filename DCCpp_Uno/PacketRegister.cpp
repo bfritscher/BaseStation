@@ -10,6 +10,10 @@ Part of DCC++ BASE STATION for the Arduino
 #include "DCCpp_Uno.h"
 #include "PacketRegister.h"
 #include "Comm.h"
+#include "Turntable.h"
+
+extern Turntable* turntable;
+Analog* analog = new Analog();
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -112,8 +116,13 @@ void RegisterList::setThrottle(char *s) volatile{
   if(nReg<1 || nReg>maxNumRegs)
     return;
 
+  if (cab == 98) {
+    analog->set(tSpeed, tDirection);
+    return;
+  }
+
   if (cab == 99) {
-    Turntable
+    turntable->moveTo(tSpeed);
     return;
   }
 
